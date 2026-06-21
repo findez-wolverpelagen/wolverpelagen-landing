@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 33" fill="none">
+  <!--
+    Wolverpelagén "W" mark — serif letterform echoing Cormorant Garamond,
+    amber #b87d2a, transparent background. True vector geometry (not a
+    webfont glyph) so it renders correctly as a favicon without any font
+    having to load first. viewBox tightly fits the glyph.
+  -->
+  <path
+    fill="#b87d2a"
+    d="
+      M 2 0
+      L 8.3 0
+      L 8.3 2.1
+      L 6.4 2.5
+      L 13.5 26.5
+      L 19.9 6.9
+      L 18.1 2.1
+      L 15.9 1.7
+      L 15.9 0
+      L 25.1 0
+      L 25.1 1.7
+      L 22.5 2.1
+      L 29.5 26.5
+      L 36.5 2.9
+      L 33.8 2.1
+      L 33.8 0
+      L 42 0
+      L 42 2.1
+      L 39.5 2.7
+      L 30.1 33
+      L 27.1 33
+      L 20.8 11.5
+      L 14.1 33
+      L 11.1 33
+      L 2.4 2.7
+      L 0 2.1
+      L 0 0
+      Z
+    "
+  />
+</svg>
