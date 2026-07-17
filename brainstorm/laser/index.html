@@ -107,8 +107,24 @@ p em{font-style:italic;color:var(--paper)}
   content:""; position:absolute; top:0; right:-8%; width:52%; height:100%;
   background:linear-gradient(150deg,rgba(168,124,42,.13),transparent 62%);
   clip-path:polygon(26% 0,100% 0,100% 100%,0 100%);
-  pointer-events:none;
+  pointer-events:none; z-index:1;
 }
+/* hero backdrop — same plate asset, abstracted to near-texture */
+.hero-media{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hero-media img{
+  position:absolute; top:0; right:0; height:100%; width:64%;
+  object-fit:cover; object-position:60% 50%;
+  filter:grayscale(.62) contrast(1.05) brightness(.5);
+  opacity:.42;
+  -webkit-mask-image:linear-gradient(to right,transparent 6%,rgba(0,0,0,.22) 42%,rgba(0,0,0,.68) 74%,#000 100%);
+          mask-image:linear-gradient(to right,transparent 6%,rgba(0,0,0,.22) 42%,rgba(0,0,0,.68) 74%,#000 100%);
+}
+.hero-media::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(to top,var(--ink) 0%,rgba(24,24,22,0) 46%),
+             linear-gradient(to right,var(--ink) 6%,rgba(24,24,22,0) 50%);
+}
+.hero .wrap{position:relative;z-index:2}
 .hero-status{display:flex;gap:14px;align-items:center;margin-bottom:36px}
 .chip{
   font-family:'Barlow Condensed',sans-serif;font-weight:800;
@@ -197,10 +213,56 @@ p em{font-style:italic;color:var(--paper)}
 }
 .narrows-inner{max-width:1180px;margin:0 auto;padding:0 clamp(24px,5vw,72px)}
 .narrows svg{width:100%;height:auto;display:block;overflow:visible}
-.narrows .cap{
-  display:flex;justify-content:space-between;margin-top:26px;
+.narrows .cap,.plate .cap{
+  display:flex;justify-content:space-between;gap:20px;margin-top:26px;
   font-family:'Barlow Condensed',sans-serif;font-weight:800;
   font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--seam);
+}
+
+/* ---------- PLATE (photographic figure) ---------- */
+/* shares the stillness block's tone — the quote and the plate are one beat */
+.plate-sec{background:#131312;padding:20px 0 120px}
+.plate{max-width:1180px;margin:0 auto;padding:0 clamp(24px,5vw,72px)}
+.plate-frame{
+  position:relative; overflow:hidden; background:#0f0f0e;
+  border:1px solid rgba(184,181,176,.16);
+}
+.plate-frame img{
+  display:block; width:100%; height:auto;
+  filter:grayscale(.3) contrast(1.04) brightness(.94) saturate(.92);
+}
+.plate-grade{
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(124% 92% at 52% 48%,rgba(24,24,22,0) 44%,rgba(24,24,22,.52) 100%),
+    linear-gradient(to bottom,rgba(24,24,22,.4) 0%,rgba(24,24,22,0) 24%,rgba(24,24,22,0) 64%,rgba(24,24,22,.42) 100%);
+}
+.plate-ann{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.plate-ann path{fill:none;stroke:var(--gold);stroke-width:1.25;vector-effect:non-scaling-stroke}
+.plate-ann circle{fill:none;stroke:var(--gold);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.ann{
+  position:absolute; transform:translateY(-50%);
+  background:rgba(17,17,16,.82);
+  -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+  border-left:2px solid var(--gold);
+  padding:9px 13px; max-width:min(40%,264px);
+}
+.ann b{
+  display:block;
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--white);
+}
+.ann i{
+  display:block;margin-top:4px;font-style:normal;
+  font-size:.78rem;line-height:1.42;color:var(--grey);
+}
+.ann-tenant{right:62.7%;top:12.5%}
+.ann-landlord{right:62.7%;top:92%}
+.plate .cap span:last-child{text-align:right}
+.plate-note{
+  margin-top:14px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5c5c55;
 }
 
 /* ---------- STILLNESS QUOTE ---------- */
@@ -248,6 +310,16 @@ a:focus-visible,.rail a:focus-visible{outline:2px solid var(--gold);outline-offs
   .hero{min-height:auto;padding:90px 0 70px}
   .ev-h{flex-direction:column;gap:4px}
   .ev-h .k{min-width:0}
+  /* backdrop drops behind full width and sinks further back */
+  .hero-media img{width:100%;opacity:.3;
+    -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.25),#000);
+            mask-image:linear-gradient(to bottom,rgba(0,0,0,.25),#000);
+  }
+  .plate-sec{padding:80px 0}
+  /* overlay callouts don't survive the narrow frame — caption carries them */
+  .plate-ann,.ann{display:none}
+  .plate .cap{flex-direction:column;gap:6px}
+  .plate .cap span:last-child{text-align:left}
 }
 </style>
 </head>
@@ -276,6 +348,9 @@ a:focus-visible,.rail a:focus-visible{outline:2px solid var(--gold);outline-offs
 
 <!-- ================= HERO ================= -->
 <section class="hero">
+  <div class="hero-media" aria-hidden="true">
+    <img src="gimbal.jpg" alt="" width="1260" height="768" decoding="async">
+  </div>
   <div class="wrap">
     <div class="hero-status">
       <span class="chip live">Brainstorm</span>
@@ -417,6 +492,32 @@ a:focus-visible,.rail a:focus-visible{outline:2px solid var(--gold);outline-offs
 <section class="stillness">
   <blockquote>We do not build the system. We build the stillness it requires.</blockquote>
   <div class="attrib">Candidate — WP-DCT-001 addendum</div>
+</section>
+
+<!-- ================= PLATE ================= -->
+<section class="plate-sec">
+  <figure class="plate">
+    <div class="plate-frame">
+      <img src="gimbal.jpg" width="1260" height="768" loading="lazy" decoding="async"
+           alt="A gimbal-stabilised electro-optical sensor head bolted to the deck of a patrol craft, a second patrol boat running alongside through a moderate sea. The sensor sits on top; the stabilised gimbal and its bolted base carry it.">
+      <div class="plate-grade" aria-hidden="true"></div>
+      <svg class="plate-ann" viewBox="0 0 1260 768" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path d="M470 96 H556 L618 152"/>
+        <circle cx="618" cy="152" r="3.5"/>
+        <path d="M470 707 H540 L585 640"/>
+        <circle cx="585" cy="640" r="3.5"/>
+      </svg>
+      <span class="ann ann-tenant" aria-hidden="true"><b>Tenant</b><i>The effector. Swapped every procurement cycle.</i></span>
+      <span class="ann ann-landlord" aria-hidden="true"><b>Landlord</b><i>The stabilised platform. Designed in for the life of the class.</i></span>
+    </div>
+    <figcaption>
+      <div class="cap">
+        <span>Tenant — effector, swapped each cycle</span>
+        <span>Landlord — stabilised platform, life of class</span>
+      </div>
+      <div class="plate-note">Illustrative concept render — not a Wolverpelagén product</div>
+    </figcaption>
+  </figure>
 </section>
 
 <!-- ================= POSITION ================= -->
