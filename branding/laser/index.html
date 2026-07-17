@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Platform Thesis — Brainstorm — Wolverpelagén</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#181816;
+  --white:#ffffff;
+  --gold:#a87c2a;
+  --seam:#b8892e;
+  --grey:#b8b5b0;
+  --paper:#f2efe8;
+  --rail:52px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Barlow',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+  position:relative;
+}
+/* noise */
+body::after{
+  content:"";
+  position:fixed; inset:0; z-index:9999; pointer-events:none;
+  opacity:.20;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- ICON RAIL ---------- */
+.rail{
+  position:fixed; top:0; left:0; bottom:0; width:var(--rail); z-index:100;
+  background:#111110;
+  border-right:1px solid rgba(184,137,46,.22);
+  display:flex; flex-direction:column; align-items:center;
+  padding:18px 0; gap:4px;
+}
+.rail .mark{
+  width:22px;height:22px;margin-bottom:22px;flex-shrink:0;
+}
+.rail a{
+  position:relative; width:var(--rail); height:44px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--grey); text-decoration:none; opacity:.5;
+  transition:opacity .25s, color .25s;
+}
+.rail a:hover,.rail a:focus-visible{opacity:1;color:var(--gold)}
+.rail a svg{width:16px;height:16px}
+.rail a::after{
+  content:attr(data-tip);
+  position:absolute; left:calc(100% + 10px); top:50%; transform:translateY(-50%) translateX(-6px);
+  background:var(--gold); color:var(--ink);
+  font-family:'Barlow Condensed',sans-serif; font-weight:800;
+  font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  padding:5px 9px; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;
+}
+.rail a:hover::after,.rail a:focus-visible::after{opacity:1;transform:translateY(-50%) translateX(0)}
+.rail .spacer{flex:1}
+.rail .status{
+  writing-mode:vertical-rl; transform:rotate(180deg);
+  font-family:'Barlow Condensed',sans-serif; font-weight:800;
+  font-size:9px; letter-spacing:.3em; color:var(--seam); opacity:.7;
+}
+
+/* ---------- SHELL ---------- */
+.shell{margin-left:var(--rail)}
+section{position:relative}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(24px,5vw,72px)}
+
+/* ---------- TYPE ---------- */
+.eyebrow{
+  font-family:'Barlow Condensed',sans-serif; font-weight:800;
+  font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--seam);
+}
+h2{
+  font-family:'Cormorant Garamond',serif; font-weight:300;
+  font-size:clamp(2.2rem,4.6vw,3.6rem); line-height:1.06;
+  color:var(--white); letter-spacing:-.01em;
+}
+h3{
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:1.05rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--white);
+}
+p{font-size:1.02rem;color:var(--grey);max-width:62ch}
+p strong{color:var(--paper);font-weight:400}
+p em{font-style:italic;color:var(--paper)}
+.gold{color:var(--gold)}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+  padding:120px 0 90px; position:relative; overflow:hidden;
+}
+.hero::before{
+  content:""; position:absolute; top:0; right:-8%; width:52%; height:100%;
+  background:linear-gradient(150deg,rgba(168,124,42,.13),transparent 62%);
+  clip-path:polygon(26% 0,100% 0,100% 100%,0 100%);
+  pointer-events:none;
+}
+.hero-status{display:flex;gap:14px;align-items:center;margin-bottom:36px}
+.chip{
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  padding:5px 11px;border:1px solid var(--seam);color:var(--seam);
+}
+.chip.live{background:var(--seam);color:var(--ink);border-color:var(--seam)}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(3.1rem,8.4vw,7.4rem); line-height:.94;
+  color:var(--white); letter-spacing:-.025em; margin-bottom:8px;
+  position:relative; z-index:2;
+}
+.hero h1 .neg{
+  display:block; font-style:italic; color:var(--gold);
+}
+.hero-sub{
+  margin-top:40px; padding-left:22px; border-left:2px solid var(--gold);
+  max-width:54ch; position:relative; z-index:2;
+}
+.hero-sub p{font-size:1.1rem;color:var(--paper)}
+
+/* ---------- TICKER ---------- */
+.ticker{
+  background:var(--gold); color:var(--ink);
+  padding:11px 0; overflow:hidden; white-space:nowrap;
+}
+.ticker-track{
+  display:inline-block; animation:slide 46s linear infinite;
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+}
+.ticker-track span{padding:0 26px}
+.ticker-track span::after{content:"◆";margin-left:26px;opacity:.42}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+
+/* ---------- BLOCK / DIAGONAL CUTS ---------- */
+.block{padding:110px 0;position:relative}
+.block.cut-a{
+  background:#1d1d1a;
+  clip-path:polygon(0 3.2vw,100% 0,100% 100%,0 calc(100% - 3.2vw));
+  margin:-2vw 0;
+  padding:calc(110px + 3.2vw) 0;
+}
+.block.cut-b{
+  background:#131312;
+  clip-path:polygon(0 0,100% 3.2vw,100% calc(100% - 3.2vw),0 100%);
+  margin:-2vw 0;
+  padding:calc(110px + 3.2vw) 0;
+}
+.head{margin-bottom:52px}
+.head .eyebrow{display:block;margin-bottom:14px}
+
+/* ---------- ASYMMETRIC GRID ---------- */
+.asym{display:grid;grid-template-columns:1fr 1.55fr;gap:clamp(28px,5vw,76px);align-items:start}
+.asym-r{display:grid;grid-template-columns:1.55fr 1fr;gap:clamp(28px,5vw,76px);align-items:start}
+.stack>*+*{margin-top:20px}
+
+/* ---------- EVIDENCE ---------- */
+.ev{border-top:1px solid rgba(184,181,176,.16);padding:24px 0}
+.ev:last-child{border-bottom:1px solid rgba(184,181,176,.16)}
+.ev-h{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.ev-h .k{
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:1.5rem;color:var(--gold);letter-spacing:.02em;min-width:118px;
+}
+.ev-h .t{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.15em;text-transform:uppercase;color:var(--white)}
+.ev p{font-size:.95rem;max-width:70ch}
+
+/* ---------- FOUR ELEMENTS ---------- */
+.elems{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(184,181,176,.14);border:1px solid rgba(184,181,176,.14)}
+.elem{background:#1a1a18;padding:30px 26px}
+.elem .n{
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;
+  letter-spacing:.24em;color:var(--seam);display:block;margin-bottom:16px;
+}
+.elem h4{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.75rem;color:var(--white);margin-bottom:12px;line-height:1.1}
+.elem p{font-size:.9rem;max-width:none}
+.elem.key{background:#20200f;box-shadow:inset 0 0 0 1px rgba(168,124,42,.4)}
+.elem.key .n{color:var(--gold)}
+
+/* ---------- THE NARROWS (signature, once) ---------- */
+.narrows{
+  padding:130px 0; background:var(--ink); position:relative; overflow:hidden;
+}
+.narrows-inner{max-width:1180px;margin:0 auto;padding:0 clamp(24px,5vw,72px)}
+.narrows svg{width:100%;height:auto;display:block;overflow:visible}
+.narrows .cap{
+  display:flex;justify-content:space-between;margin-top:26px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--seam);
+}
+
+/* ---------- STILLNESS QUOTE ---------- */
+.stillness{padding:150px 0;text-align:center;background:#131312}
+.stillness blockquote{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:clamp(1.7rem,3.6vw,2.9rem);line-height:1.28;color:var(--white);
+  max-width:22ch;margin:0 auto;
+}
+.stillness .attrib{
+  margin-top:34px;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--seam);
+}
+
+/* ---------- LEDGER / TWO COLUMN COMPARE ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(184,181,176,.14);border:1px solid rgba(184,181,176,.14);margin-top:36px}
+.col{background:#1a1a18;padding:34px 30px}
+.col.yes{box-shadow:inset 3px 0 0 var(--gold)}
+.col.no{box-shadow:inset 3px 0 0 #4a4a45}
+.col .lab{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:14px;display:block}
+.col.yes .lab{color:var(--gold)}
+.col.no .lab{color:#6e6e66}
+.col h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);margin-bottom:14px}
+.col p{font-size:.92rem;max-width:none}
+
+/* ---------- OPEN QUESTIONS ---------- */
+.q{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid rgba(184,181,176,.13)}
+.q .mk{color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.85rem;letter-spacing:.1em;flex-shrink:0;padding-top:4px}
+.q p{font-size:.98rem;color:var(--paper)}
+
+/* ---------- FOOT ---------- */
+footer{padding:80px 0 60px;border-top:1px solid rgba(184,137,46,.24);background:#111110}
+.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;align-items:flex-end}
+.foot-grid .meta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#5c5c55;line-height:2.1}
+.foot-grid .meta b{color:var(--seam);font-weight:800}
+.wordmark{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2rem;color:var(--gold);letter-spacing:.02em}
+
+a:focus-visible,.rail a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+@media(max-width:860px){
+  :root{--rail:0px}
+  .rail{display:none}
+  .asym,.asym-r,.compare{grid-template-columns:1fr}
+  .block.cut-a,.block.cut-b{clip-path:none;margin:0;padding:80px 0}
+  .hero{min-height:auto;padding:90px 0 70px}
+  .ev-h{flex-direction:column;gap:4px}
+  .ev-h .k{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= RAIL ================= -->
+<nav class="rail" aria-label="Section navigation">
+  <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M2 4 L9 11 L6 13 L2 8 Z" fill="#a87c2a"/>
+    <path d="M22 4 L15 11 L18 13 L22 8 Z" fill="#a87c2a"/>
+    <path d="M12 14 L15 18 L12 22 L9 18 Z" fill="#a87c2a"/>
+  </svg>
+  <a href="#premise" data-tip="Premise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/></svg></a>
+  <a href="#evidence" data-tip="Evidence"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 19 L9 11 L14 15 L21 5"/><path d="M3 19 H21"/></svg></a>
+  <a href="#elements" data-tip="Four Elements"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></a>
+  <a href="#position" data-tip="The Position"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 L21 8 V16 L12 21 L3 16 V8 Z"/></svg></a>
+  <a href="#slot" data-tip="Legal Slot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 21 V9 L12 4 L19 9 V21"/><path d="M3 21 H21"/></svg></a>
+  <a href="#line" data-tip="The Line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12 H21"/><path d="M8 7 L3 12 L8 17"/><path d="M16 7 L21 12 L16 17"/></svg></a>
+  <a href="#now" data-tip="Actionable Now"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7 V12 L15 15"/></svg></a>
+  <a href="#open" data-tip="Open Questions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 9 A3 3 0 1 1 12 12 V14"/><circle cx="12" cy="18.5" r=".8" fill="currentColor"/></svg></a>
+  <div class="spacer"></div>
+  <div class="status">Brainstorm</div>
+</nav>
+
+<div class="shell">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-status">
+      <span class="chip live">Brainstorm</span>
+      <span class="chip">Pre-doctrinal</span>
+      <span class="chip">Not canon</span>
+    </div>
+    <h1>
+      Be the hull<br>a laser can<br>live on.
+      <span class="neg">Never be the laser.</span>
+    </h1>
+    <div class="hero-sub">
+      <p>A twenty-year read on where Wolverpelagén sits in the marine defence stack — and why the seat was never a seat.</p>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Stability is the precondition</span><span>The effector is a tenant</span><span>Cheap + networked beats expensive + isolated</span><span>Absorb, don't build</span><span>Instrument now, claim later</span>
+    <span>Stability is the precondition</span><span>The effector is a tenant</span><span>Cheap + networked beats expensive + isolated</span><span>Absorb, don't build</span><span>Instrument now, claim later</span>
+  </div>
+</div>
+
+<!-- ================= PREMISE ================= -->
+<section class="block cut-a" id="premise">
+  <div class="wrap">
+    <div class="asym">
+      <div class="head">
+        <span class="eyebrow">01 — Premise</span>
+        <h2>The same enemy</h2>
+      </div>
+      <div class="stack">
+        <p>Every system a vessel carries degrades against one adversary: <strong>sea state</strong>. The optic loses its lock. The sensor loses its baseline. The gunner loses his sight picture. The commander loses the thread of his own decision. Four different failures, one cause.</p>
+        <p>This is not a metaphor. It is a shared physical dependency, and it means the layer that rejects motion is not a comfort item bolted on at the end of a build. It is <em>the foundation the rest of the combat system is standing on</em> — and it is currently the least engineered part of the boat.</p>
+        <p>We have been building it for two years and calling it a seat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EVIDENCE ================= -->
+<section class="block cut-b" id="evidence">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">02 — Evidence</span>
+      <h2>What the last decade<br>actually proved</h2>
+    </div>
+    <div class="asym-r">
+      <div>
+        <div class="ev">
+          <div class="ev-h"><span class="k">USS Cole</span><span class="t">2000 · Aden</span></div>
+          <p>A destroyer nearly killed by a skiff. The most expensive platform in the harbour, defeated by the cheapest thing in it. The lesson was available twenty-six years ago and largely ignored.</p>
+        </div>
+        <div class="ev">
+          <div class="ev-h"><span class="k">Black Sea</span><span class="t">2022– · Ukraine</span></div>
+          <p>A country with effectively no navy pushed a fleet out of the western Black Sea using unmanned surface craft costing a rounding error against the ships they struck. The boats were not sophisticated. <strong>The targeting picture was.</strong></p>
+        </div>
+        <div class="ev">
+          <div class="ev-h"><span class="k">Red Sea</span><span class="t">2023– · Exchange ratio</span></div>
+          <p>Multi-billion-dollar destroyers spending seven-figure interceptors on five-figure threats. A losing exchange <em>even when you win every engagement</em>. This is how a navy is bankrupted without losing a battle.</p>
+        </div>
+      </div>
+      <div class="stack">
+        <h3>The pattern</h3>
+        <p>Cheap + networked + informed beats expensive + isolated. Consistently. Across three theatres and two decades.</p>
+        <p>The differentiator is knowing first, deciding first, pointing first. <strong>The effector is the last link in the chain and the most commoditised one.</strong></p>
+        <h3>One boat vs. fleet</h3>
+        <p>A laser on one boat is a party trick — it defends itself and nothing else. A laser across a fleet, with shared tracks and handoff, is an umbrella.</p>
+        <p>Note what makes it an umbrella. Not the beam. <span class="gold">The network.</span> One boat with a laser and no picture is worse than five boats with a picture and machine guns.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THE NARROWS (signature) ================= -->
+<section class="narrows">
+  <div class="narrows-inner">
+    <svg viewBox="0 0 1180 128" role="img" aria-label="The Narrows: capability converging from broad sea state to sub-milliradian pointing">
+      <defs>
+        <linearGradient id="ng" x1="0" x2="1">
+          <stop offset="0" stop-color="#b8b5b0" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#a87c2a" stop-opacity="1"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 4 C 460 4, 700 56, 1180 62" stroke="url(#ng)" stroke-width="1.25" fill="none"/>
+      <path d="M0 124 C 460 124, 700 68, 1180 66" stroke="url(#ng)" stroke-width="1.25" fill="none"/>
+      <line x1="1180" y1="62" x2="1180" y2="66" stroke="#a87c2a" stroke-width="2"/>
+      <circle cx="1180" cy="64" r="3.5" fill="#a87c2a"/>
+      <line x1="0" y1="4" x2="0" y2="124" stroke="#b8b5b0" stroke-opacity=".22" stroke-width="1.25"/>
+    </svg>
+    <div class="cap">
+      <span>Sea state 3–4 · ±5–10° · tens–hundreds of mrad</span>
+      <span>Effector requirement · sub-milliradian</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOUR ELEMENTS ================= -->
+<section class="block cut-a" id="elements">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">03 — The Four Elements</span>
+      <h2>Stack them and see<br>what's missing</h2>
+    </div>
+    <div class="elems">
+      <div class="elem">
+        <span class="n">Element 01</span>
+        <h4>Laser</h4>
+        <p>The easiest part to buy. Effectors are purchasable, swappable, and politically expensive to own. The one piece already available at scale from vendors who want to sell it.</p>
+      </div>
+      <div class="elem key">
+        <span class="n">Element 02 · The wall</span>
+        <h4>Stable</h4>
+        <p>Sub-milliradian pointing against a hull moving in tens to hundreds of milliradians. Two to three orders of magnitude of motion rejection, continuously, in salt spray. <strong>This — not the beam — is why there is no small-craft laser.</strong></p>
+      </div>
+      <div class="elem key">
+        <span class="n">Element 03 · The enabler</span>
+        <h4>Energy</h4>
+        <p>Not a reactor. An <strong>energy magazine</strong>: store slowly from the existing plant, release fast. Reframes an unsolved physics problem into a fundable engineering one — storage and thermal management.</p>
+      </div>
+      <div class="elem">
+        <span class="n">Element 04</span>
+        <h4>Style</h4>
+        <p>Gold to the core. Concealment. Stillness. The part that needs no argument and no help.</p>
+      </div>
+    </div>
+    <div class="asym" style="margin-top:60px">
+      <div><h3>The observation</h3></div>
+      <div class="stack">
+        <p>Stack the four and notice what has been described: <strong>everything except the laser.</strong> Stabilisation. Power. Sensing. Operator state. Decision support.</p>
+        <p>The beam bolts on at the end. It is the one piece that is for sale, that Pindad or a foreign vendor will happily provide, and that costs the civilian market, the export freedom, and half the talent pipeline to own.</p>
+        <p>Element 03 is not in service of Element 01. <span class="gold">Element 01 is merely its first customer.</span> An energy magazine plus active stabilisation is the enabling layer for every high-draw system a hull will carry for the next twenty years — sensors, effectors, comms, autonomy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STILLNESS ================= -->
+<section class="stillness">
+  <blockquote>We do not build the system. We build the stillness it requires.</blockquote>
+  <div class="attrib">Candidate — WP-DCT-001 addendum</div>
+</section>
+
+<!-- ================= POSITION ================= -->
+<section class="block cut-b" id="position">
+  <div class="wrap">
+    <div class="asym">
+      <div class="head">
+        <span class="eyebrow">04 — The Position</span>
+        <h2>Tenant<br>and landlord</h2>
+      </div>
+      <div class="stack">
+        <p>Effectors get swapped every procurement cycle. The stabilised, powered, instrumented platform underneath gets <em>designed in</em> — and once designed in, it is present for the life of the vessel class.</p>
+        <p><strong>The effector vendor is a line item. The platform vendor is a dependency.</strong></p>
+        <p>This is not the weaker seat. It is the stronger one, and it requires no doctrinal reversal. The sentence already written — <span class="gold">we build the operator layer; we do not build the effector</span> — holds without amendment. It only requires noticing that "the operator layer" was always bigger than a seat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LEGAL SLOT ================= -->
+<section class="block cut-a" id="slot">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">05 — The Legal Slot</span>
+      <h2>The door that is<br>already open</h2>
+    </div>
+    <div class="asym-r">
+      <div class="stack">
+        <p>UU 16/2012 clusters the defence industry into four tiers: <strong>industri alat utama</strong>, <strong>komponen utama</strong>, <strong>komponen/pendukung</strong>, and <strong>bahan baku</strong>. Alat utama is the lead integrator producing the weapon system — originally Pasal 52 restricted its capital to the state; UU Cipta Kerja revised this to permit BUMS with the Defence Minister's approval, with Kemhan retaining oversight.</p>
+        <p>Komponen utama has always been open to swasta — private firms producing main components <em>or the wahana (platform) of a weapon system</em>. Roughly 55 badan usaha occupy that cluster. KKIP coordinates.</p>
+        <p>The platform thesis targets a slot that requires <strong>no ministerial exception</strong>. It is a door, not a wall. Entry is months away, insya Allah.</p>
+      </div>
+      <div>
+        <h3>Prerequisite</h3>
+        <p>Registration as industri pertahanan requires a legal entity. <span class="gold">The PT is the gate.</span> Nothing in this document is reachable before it exists.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THE LINE ================= -->
+<section class="block cut-b" id="line">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">06 — The Line</span>
+      <h2>Absorb, don't build</h2>
+    </div>
+    <p>Iron Beam is unavailable to Indonesia at any price — no diplomatic relations. US systems carry ITAR and end-use restrictions. That leaves Turkey, China, or domestic, each with its own political weather. <strong>The effector supply chain for Indonesia specifically is narrow and politically live.</strong> The hedge instinct is correct. The question is what form the hedge takes.</p>
+    <div class="compare">
+      <div class="col yes">
+        <span class="lab">Pursue</span>
+        <h4>Absorptive capacity</h4>
+        <p>Enough internal expertise to evaluate vendors, define interfaces, run acceptance testing, and not be sold a brochure. Understanding beam quality, power budgets, thermal loads and atmospheric attenuation <em>as a buyer and integrator</em>.</p>
+        <p style="margin-top:14px">Cheap. Legitimate. The thing that actually protects against political weather, because it means suppliers can be swapped without being helpless.</p>
+      </div>
+      <div class="col no">
+        <span class="lab">Decline</span>
+        <h4>Development capability</h4>
+        <p>Building the effector. Costs the civilian market, the export freedom, and the talent pipeline — for a capability the state incumbent already holds a mandate for and which would take a decade to catch.</p>
+        <p style="margin-top:14px">Not a moral position. A capital and optionality position. There is no version where this is the efficient use of the next ten years.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOW ================= -->
+<section class="block cut-a" id="now">
+  <div class="wrap">
+    <div class="asym">
+      <div class="head">
+        <span class="eyebrow">07 — Actionable Now</span>
+        <h2>One thing</h2>
+      </div>
+      <div class="stack">
+        <p>Everything above is a document for 2028. The only thing this thesis changes <strong>today</strong> is the sensor work on the Wolver One Standard prototype.</p>
+        <p>Instrument for <span class="gold">motion rejection, not just comfort</span>. Log deck-versus-pan across sea state. Attenuation at the seat pan against the deck reference, continuously, with timestamps.</p>
+        <p>That dataset is the seed of active stabilisation. Active stabilisation is the seed of all four elements. And nobody else in this market has it — which is the only thing that turns a thesis into a claim with a chart under it.</p>
+        <p><strong>Instrument now. Claim later.</strong> Solve the architecture; leave the element to the generation with the tools.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OPEN QUESTIONS ================= -->
+<section class="block cut-b" id="open">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">08 — Open</span>
+      <h2>Unresolved</h2>
+    </div>
+    <div class="q"><span class="mk">Q1</span><p>Passive air-spring with integrated sensing is the current path. What is the actual trigger to commit capital to active? A sea-state threshold? A customer? A dataset size?</p></div>
+    <div class="q"><span class="mk">Q2</span><p>Cerebellum already touches the decision layer. Is the doctrine honest about that, or is it maintaining a purity already left behind? This needs resolving <em>before</em> a room with a contract in it, not during.</p></div>
+    <div class="q"><span class="mk">Q3</span><p>Does the platform thesis survive contact with Artha's institutional read? He owns the relationships. If Kemhan wants a laser company, does he say no?</p></div>
+    <div class="q"><span class="mk">Q4</span><p>The Den Program recruits on taste. Does the best ITB scholar say yes to a company positioned this close to the kill chain? The answer changes the talent strategy, not the product strategy.</p></div>
+    <div class="q"><span class="mk">Q5</span><p>Energy magazine: whose problem is it? A Wolverpelagén subsystem, or a partner's? This is the one element with no current owner.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="meta">
+        Status — <b>Brainstorm · Pre-doctrinal · Not canon</b><br>
+        Audience — <b>Findez, then Artha</b><br>
+        Supersedes — <b>Nothing</b><br>
+        Locked — <b>Nothing</b>
+      </div>
+      <div class="wordmark">Wolverpelagén</div>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
